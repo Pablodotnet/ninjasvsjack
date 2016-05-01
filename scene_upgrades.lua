@@ -15,7 +15,7 @@ local scene = composer.newScene()
 local widget = require "widget"
 widget.setTheme("widget_theme_ios7")
 
-local btn_upgrade1, btn_upgrade2, btn_menu, sceneTitle, warningMessage
+local btn_upgrade1, btn_upgrade2, btn_menu, sceneTitle, warningMessage, btn_upgradeGirl
 local movePirate, moveNinja
 
 user = loadsave.loadTable("user.json")
@@ -81,6 +81,35 @@ local function onUpgrade2Touch(event)
 				user = loadsave.loadTable("user.json")
 
 				btn_upgrade2:setLabel("$"..(user.liveslevel*_LIVESUPGRADECOST + _LIVESUPGRADECOST).."  Rank  "..user.liveslevel)
+			end
+		else
+			-- otherwise, display the warning message of not enough money
+			warningMessage.alpha = 1
+			local tmr_hidewarningmessage = timer.performWithDelay(750, hideWarningMessage, 1)
+		end
+	end
+end
+
+-- Function for buying character Ninja Girl
+local function onUpgrade3Touch(event)
+	if(event.phase == "ended") then
+		audio.play(_CLICK)
+		if(user.money >= _EXTRACHARACTERCOST) then
+			-- allow player to proceed with the upgrade
+			if(user.extraCharacter == true) then
+				-- display message "Already Bought"
+				btn_upgradeGirl:setLabel("Already Have It")
+			else
+				-- proceed with upgrade
+				user.money = user.money - _EXTRACHARACTERCOST
+
+				sceneTitle.text = "Upgrades - $"..user.money
+
+				user.extraCharacter = true
+				loadsave.saveTable(user, "user.json")
+				user = loadsave.loadTable("user.json")
+
+				btn_upgradeGirl:setLabel("$"..(_EXTRACHARACTERCOST))
 			end
 		else
 			-- otherwise, display the warning message of not enough money
@@ -173,16 +202,33 @@ function scene:create( event )
 	sceneGroup:insert(btn_upgrade2)
 
 
-	btn_menu = widget.newButton{
+	btn_upgradeGirl = widget.newButton{
 		width = 426,
 		height = 183,
+		defaultFile = "images/menuscreen/btn_girl.png",
+		overFile = "images/menuscreen/btn_girl_over1.png",
+		font = _FONT;
+		fontSize = 60,
+		labelColor = {default={1,1,1},over={0,0,0}},
+		labelYOffset = -15,
+		label = "$"..(_EXTRACHARACTERCOST),
+		onEvent = onUpgrade3Touch
+	}
+
+	btn_upgradeGirl.x = _CX
+	btn_upgradeGirl.y = _CY + (btn_upgradeGirl.height * 1.25) 
+	sceneGroup:insert(btn_upgradeGirl)
+
+	btn_menu = widget.newButton{
+		width = 300,
+		height = 83,
 		defaultFile = "images/menuscreen/btn_menu.png",
 		overFile = "images/menuscreen/btn_menu_over.png",
 		onEvent = onMenuTouch
 	}
 
-	btn_menu.x = _CX
-	btn_menu.y = _CY + (btn_menu.height * 1.25)
+	btn_menu.x = _CX + (btn_menu.width * 1.7)
+	btn_menu.y = _CY + (btn_menu.height * 3.8)
 	sceneGroup:insert(btn_menu)
 end
 

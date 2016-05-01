@@ -6,6 +6,7 @@ _APPNAME = "Jack vs Ninjas"
 _FONT = "MadeInChina.ttf"
 _SHOOTUPGRADECOST = 35
 _LIVESUPGRADECOST = 100
+_EXTRACHARACTERCOST = 100
 _SHOWADS = true
 
 -- CONSTANT VALUES
@@ -45,6 +46,8 @@ if(user == nil) then
 	user.liveslevel = 0
 	user.liveslevelmax = 10
 	user.playsound = true
+	user.characterSelected = "ninjaMale"
+	user.extraCharacter = false
 	loadsave.saveTable(user, "user.json")
 end
 
