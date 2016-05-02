@@ -21,7 +21,8 @@ user = loadsave.loadTable("user.json")
 local function onPlayTouch(event)
 	if(event.phase == "ended") then
 		audio.play(_CLICK)
-		composer.gotoScene("scene_game", "slideLeft")
+		-- composer.gotoScene("scene_game", "slideLeft")
+		composer.gotoScene("scene_characterselect", "slideLeft")
 	end
 end
 
@@ -67,7 +68,7 @@ function scene:create( event )
     local myJack = display.newImageRect(sceneGroup, "images/menuscreen/menu_jack.png", 334, 430)
     	myJack.x = _L - myJack.width; myJack.y = _CH * 0.7
 
-    local myNinja = display.newImageRect(sceneGroup, "images/menuscreen/menu_ninja.png", 234, 346)
+    local myNinja = display.newImageRect(sceneGroup, "images/menuscreen/menu_ninja1.png", 234, 346)
     	myNinja.x = _R + myNinja.width; myNinja.y = _CH * 0.7
 
     -- Create some buttons

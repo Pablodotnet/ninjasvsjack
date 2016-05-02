@@ -29,7 +29,7 @@ local composer = require("composer")
 loadsave = require("loadsave")
 
 -- load up some audio
-_BACKGROUNDMUSIC = audio.loadStream("audio/background-music.mp3")
+-- _BACKGROUNDMUSIC = audio.loadStream("audio/background-music.mp3")
 _THROW = audio.loadSound("audio/throw.mp3")
 _ENEMYHIT = audio.loadSound("audio/enemy-hit.mp3")
 _PLAYERHIT = audio.loadSound("audio/player-hit.mp3")
