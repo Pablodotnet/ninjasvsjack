@@ -94,12 +94,12 @@ end
 local function onUpgrade3Touch(event)
 	if(event.phase == "ended") then
 		audio.play(_CLICK)
-		if(user.money >= _EXTRACHARACTERCOST) then
-			-- allow player to proceed with the upgrade
-			if(user.extraCharacter == true) then
-				-- display message "Already Bought"
-				btn_upgradeGirl:setLabel("Already Have It")
-			else
+		if (user.extraCharacter == true) then
+			-- display message "Already Bought"
+			btn_upgradeGirl:setLabel("Already Have It")
+		else
+			if (user.money >= _EXTRACHARACTERCOST) then
+				-- allow player to proceed with the upgrade
 				-- proceed with upgrade
 				user.money = user.money - _EXTRACHARACTERCOST
 
@@ -110,11 +110,11 @@ local function onUpgrade3Touch(event)
 				user = loadsave.loadTable("user.json")
 
 				btn_upgradeGirl:setLabel("$"..(_EXTRACHARACTERCOST))
+			else
+				-- otherwise, display the warning message of not enough money
+				warningMessage.alpha = 1
+				local tmr_hidewarningmessage = timer.performWithDelay(750, hideWarningMessage, 1)
 			end
-		else
-			-- otherwise, display the warning message of not enough money
-			warningMessage.alpha = 1
-			local tmr_hidewarningmessage = timer.performWithDelay(750, hideWarningMessage, 1)
 		end
 	end
 end
@@ -147,19 +147,24 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
     local background = display.newImageRect(sceneGroup, "images/menuscreen/menu_bg.png", 1425, 1000)
-    	background.x = _CX; background.y = _CY;
+		background.x = _CX
+		background.y = _CY
 
     --local gameTitle = display.newImageRect(sceneGroup, "images/menuscreen/title.png", 1108, 270)
-    --	gameTitle.x = _CX; gameTitle.y = _CH * 0.2
+	--	gameTitle.x = _CX
+	--	gameTitle.y = _CH * 0.2
 
     local banner = display.newImageRect(sceneGroup, "images/menuscreen/banner.png", 1400, 200)
-    	banner.x = _CX; banner.y = _CH * 0.2
+		banner.x = _CX
+		banner.y = _CH * 0.2
 
     sceneTitle = display.newText(sceneGroup, "Upgrades - $"..user.money, 0, 0, _FONT, 90)
-    	sceneTitle.x = _CX; sceneTitle.y = banner.y - 30
+		sceneTitle.x = _CX
+		sceneTitle.y = banner.y - 30
 
     warningMessage = display.newText(sceneGroup, "Not enough money.", 0, 0, _FONT, 52)
-    	warningMessage.x = _CX; warningMessage.y = sceneTitle.y + (sceneTitle.height * 0.7)
+		warningMessage.x = _CX
+		warningMessage.y = sceneTitle.y + (sceneTitle.height * 0.7)
     	warningMessage.alpha = 0
 
 
@@ -171,7 +176,7 @@ function scene:create( event )
 		height = 183,
 		defaultFile = "images/menuscreen/btn_shoot.png",
 		overFile = "images/menuscreen/btn_shoot_over.png",
-		font = _FONT;
+		font = _FONT,
 		fontSize = 60,
 		labelColor = {default={1,1,1},over={0,0,0}},
 		labelYOffset = 15,
@@ -189,7 +194,7 @@ function scene:create( event )
 		height = 183,
 		defaultFile = "images/menuscreen/btn_lives.png",
 		overFile = "images/menuscreen/btn_lives_over.png",
-		font = _FONT;
+		font = _FONT,
 		fontSize = 60,
 		labelColor = {default={1,1,1},over={0,0,0}},
 		labelYOffset = 15,
@@ -207,7 +212,7 @@ function scene:create( event )
 		height = 183,
 		defaultFile = "images/menuscreen/btn_girl.png",
 		overFile = "images/menuscreen/btn_girl_over1.png",
-		font = _FONT;
+		font = _FONT,
 		fontSize = 60,
 		labelColor = {default={1,1,1},over={0,0,0}},
 		labelYOffset = -15,

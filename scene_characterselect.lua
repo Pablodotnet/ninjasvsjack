@@ -38,20 +38,22 @@ local function hideWarningMesssage()
 	warningMessage.alpha = 0
 end
 
+local function selectAndSave(character)
+	if (character == 'ninjaBoy') then
+		user.characterSelected = "ninjaBoy"
+	elseif (character == 'ninjaGirl') then
+		user.characterSelected = "ninjaGirl"
+	end
+	loadsave.saveTable(user, "user.json")
+	user = loadsave.loadTable("user.json")
+end
+
 local function onNinjaBoyTouch(event)
 	if(event.phase == "ended") then
 		audio.play(_CLICK)
-		if(user.characterSelected == "ninjaGirl") then
-			
-			user.characterSelected = "ninjaMale"
-			loadsave.saveTable(user, "user.json")
-			user = loadsave.loadTable("user.json")
-
-			btn_ninjaBoy:setLabel("Selected")
-		else
-			user.characterSelected = "ninjaMale"
-			btn_ninjaGirl:setLabel("Selected")
-		end
+		selectAndSave('ninjaBoy')
+		btn_ninjaBoy:setLabel("Selected")
+		btn_ninjaGirl:setLabel("")
 	end
 end
 
@@ -60,14 +62,14 @@ local function onNinjaGirlTouch(event)
 		audio.play(_CLICK)
 		if(user.extraCharacter == false) then
 			-- Display message to advice the user doesn't have the character
+
 			btn_ninjaGirl:setLabel("GO BUY IT")
 		else
 			-- Proceed to change character if the user have already bought it
-			user.characterSelected = "ninjaGirl"
-			loadsave.saveTable(user, "user.json")
-			user = loadsave.loadTable("user.json")
+			selectAndSave('ninjaGirl')
 
-			btn_ninjaGirl:setLabel("Selected")			
+			btn_ninjaGirl:setLabel("Selected")
+			btn_ninjaBoy:setLabel("")
 		end
 	end
 end
@@ -83,25 +85,29 @@ function scene:create( event )
     -- Initialize the scene here.
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
     local background = display.newImageRect(sceneGroup, "images/menuscreen/menu_bg.png", 1425, 1000)
-    	background.x = _CX; 
-    	background.y = _CY;
+    	background.x = _CX
+    	background.y = _CY
 
     local gameTitle = display.newImageRect(sceneGroup, "images/menuscreen/character_select.png", 1308, 270)
-    	gameTitle.x = _CX; 
-    	gameTitle.y = _CH * 0.2;
+    	gameTitle.x = _CX
+    	gameTitle.y = _CH * 0.2
 
     -- local myNinja = display.newImageRect(sceneGroup, "images/menuscreen/menu_ninja1.png", 234, 346)
-    	-- myNinja.x = _R + myNinja.width;
-    	-- myNinja.y = _CH * 0.7;
+    	-- myNinja.x = _R + myNinja.width
+    	-- myNinja.y = _CH * 0.7
 
 
     -- local myJack = display.newImageRect(sceneGroup, "images/menuscreen/menu_girl.png", 243, 365)
-    --	myJack.x = _L - myJack.width; 
-    --	myJack.y = _CH * 0.7;
+    --	myJack.x = _L - myJack.width
+    --	myJack.y = _CH * 0.7
 
     btn_ninjaBoy = widget.newButton{
     	width = 234,
-    	height = 346,
+		height = 346,
+		font = _FONT,
+		fontSize = 70,
+		labelColor = {default={0,0,0},over={1,1,1}},
+		labelYOffset = -230,
     	defaultFile = "images/menuscreen/menu_ninja1.png",
     	overFile = "images/menuscreen/menu_ninja1_over.png",
     	onEvent = onNinjaBoyTouch
@@ -113,7 +119,11 @@ function scene:create( event )
 
 	btn_ninjaGirl = widget.newButton{
     	width = 243,
-    	height = 365,
+		height = 365,
+		font = _FONT,
+		fontSize = 70,
+		labelColor = {default={0,0,0},over={1,1,1}},
+		labelYOffset = -230,
     	defaultFile = "images/menuscreen/menu_girl.png",
     	overFile = "images/menuscreen/menu_girl_over.png",
     	onEvent = onNinjaGirlTouch

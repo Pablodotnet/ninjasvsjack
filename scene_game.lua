@@ -12,8 +12,14 @@ local physics = require "physics"
 physics.start()
 physics.setGravity(0,0)
 
+user = loadsave.loadTable("user.json")
+local playerSheet
 local playerSheetData = {width=146, height=175, numFrames = 8, sheetContentWidth=1168, sheetContentHeight=175}
-local playerSheet = graphics.newImageSheet("images/characters/ninja.png", playerSheetData)
+if (user.characterSelected == 'ninjaBoy') then
+    playerSheet = graphics.newImageSheet("images/characters/ninjaBoy.png", playerSheetData)
+elseif (user.characterSelected == 'ninjaGirl') then
+    playerSheet = graphics.newImageSheet("images/characters/ninjaGirl.png", playerSheetData)
+end
 local playerSequenceData = {
     {name="shooting", start=1, count=7, time=300, loopCount=1},
     {name="hurt", start=8, count=1, time=200, loopCount=1}
@@ -140,7 +146,7 @@ function scene:create( event )
             sceneGroup:insert(enemy[enemyCounter])
 
             transition.to(enemy[enemyCounter], { x = _R+50, time=enemyTravelSpeed, onComplete=function(self) 
-                if(self ~= nil) then display.remove(self); end
+                if(self ~= nil) then display.remove(self) end
             end})
 
             enemy[enemyCounter]:setSequence("running")
@@ -248,16 +254,19 @@ function scene:create( event )
                 end
 
                 pauseBackground = display.newRect(sceneGroup, 0, 0, _CW*1.25, _CH*1.25)
-                    pauseBackground.x = _CX; pauseBackground.y = _CY
+                    pauseBackground.x = _CX
+                    pauseBackground.y = _CY
                     pauseBackground:setFillColor(0)
                     pauseBackground.alpha = 0.6
                     pauseBackground:addEventListener("touch", onPauseTouch)
 
                 pauseText = display.newText(sceneGroup, "Game Pause  ", 0, 0, _FONT, 130)
-                    pauseText.x = _CX; pauseText.y = _CY - pauseText.height
+                    pauseText.x = _CX 
+                    pauseText.y = _CY - pauseText.height
 
                 pauseReminder = display.newText(sceneGroup, "Return To Game", 0, 0, _FONT, 56)
-                    pauseReminder.x = btn_pause.x + 275; pauseReminder.y = btn_pause.y
+                    pauseReminder.x = btn_pause.x + 275
+                    pauseReminder.y = btn_pause.y
 
                 pause_returnToMenu = widget.newButton {
                     width = 426,
@@ -301,7 +310,7 @@ function scene:create( event )
     function onGameOver()
         audio.play(_GAMEOVER)
 
-        if(tmr_playershoot) then timer.cancel(tmr_playershoot); end
+        if(tmr_playershoot) then timer.cancel(tmr_playershoot) end
         Runtime:removeEventListener("enterFrame", sendEnemies)
         Runtime:removeEventListener("collision", onCollision)
 
@@ -318,12 +327,14 @@ function scene:create( event )
         end
 
         gameoverBackground = display.newRect(sceneGroup, 0, 0, _CW*1.25, _CH*1.25)
-            gameoverBackground.x = _CX; gameoverBackground.y = _CY
+            gameoverBackground.x = _CX
+            gameoverBackground.y = _CY
             gameoverBackground:setFillColor(0)
             gameoverBackground.alpha = 0.6
 
             gameOverBox = display.newImageRect(sceneGroup, "images/gamescreen/title_gameover.png", 924, 154)
-                gameOverBox.x = _CX; gameOverBox.y = _CY - gameOverBox.height
+                gameOverBox.x = _CX
+                gameOverBox.y = _CY - gameOverBox.height
 
             btn_returnToMenu = widget.newButton{
                 width = 426,

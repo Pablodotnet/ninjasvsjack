@@ -46,7 +46,7 @@ if(user == nil) then
 	user.liveslevel = 0
 	user.liveslevelmax = 10
 	user.playsound = true
-	user.characterSelected = "ninjaMale"
+	user.characterSelected = "ninjaBoy"
 	user.extraCharacter = false
 	loadsave.saveTable(user, "user.json")
 end

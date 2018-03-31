@@ -40,7 +40,7 @@ function M.loadTable(filename, location)
     if file then
         -- read all contents of file into a string
         local contents = file:read( "*a" )
-        myTable = json.decode(contents);
+        myTable = json.decode(contents)
         io.close( file )
         return myTable
     end
